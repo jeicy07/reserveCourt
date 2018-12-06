@@ -27,26 +27,19 @@ import javax.persistence.NamedQuery;
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
     private Long reserve_id;
-    private int court_id;
+    private Court court;
     private Date start_date;
     private int start_hour;
-    private String username;
+    private User user;
     private int status;
     
     public Reserve() {}
     
-    public Reserve(Long reserve_id,
-            int court_id,
-            Date start_date,
+    public Reserve(Date start_date,
             int start_hour,
-            int user_id,
-            String username,
             int status) {
-        this.reserve_id = reserve_id;
-        this.court_id = court_id;
         this.start_date = start_date;
         this.start_hour = start_hour;
-        this.username = username;
         this.status = status;
     }
     
@@ -66,7 +59,6 @@ public class Reserve implements Serializable {
     public Long getReserveId() {
         return reserve_id;
     }
-
     public void setReserveId(Long reserve_id) {
         this.reserve_id = reserve_id;
     }
@@ -75,18 +67,13 @@ public class Reserve implements Serializable {
     @JoinColumn(name="court_id")
     public Court getCourt()
     {
-        return Court;
+        return court;
+    }
+    public void setCourt(Court court)
+    {
+    	this.court = court;
     }
     
-    @Column(name="username",insertable=false,nullable=false,updatable=false)
-    public int getCourtId() {
-        return court_id;
-    }
-
-    public void setCourtId(int court_id) {
-        this.court_id = court_id;
-    }
-
     @Temporal(DATE)
     public Date getStartDate() {
         return start_date;
@@ -111,14 +98,9 @@ public class Reserve implements Serializable {
     {
         return User;
     }
-    
-    @Column(name="username",insertable=false,nullable=false,updatable=false)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user)
+    {
+    	this.User = user;
     }
 
     
