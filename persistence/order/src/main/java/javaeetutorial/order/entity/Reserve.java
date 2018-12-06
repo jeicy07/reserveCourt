@@ -16,10 +16,14 @@ import static javax.persistence.CascadeType.ALL;
 import javax.persistence.TableGenerator;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
+import javax.persistence.NamedQuery;
 
 @Entity
 @Table(name="PERSISTENCE_RESERVE")
+@NamedQuery(
+    name="findAllReservedCourts",
+    query="SELECT r FROM reserve r ORDER BY r.reserve_id"
+)
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
     private Long reserve_id;
