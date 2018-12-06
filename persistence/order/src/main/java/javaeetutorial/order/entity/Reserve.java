@@ -96,11 +96,11 @@ public class Reserve implements Serializable {
     @JoinColumn(name="username")
     public User getUser()
     {
-        return User;
+        return user;
     }
     public void setUser(User user)
     {
-    	this.User = user;
+    	this.user = user;
     }
 
     
