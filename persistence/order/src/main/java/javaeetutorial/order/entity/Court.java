@@ -23,6 +23,7 @@ public class Court implements java.io.Serializable {
     private char court_category;
     private char stadium;
     private int court_no;
+    private Collection<Reserve> reserves;
 
 
     public Court() {
@@ -70,7 +71,7 @@ public class Court implements java.io.Serializable {
     }
 
     @OneToMany(cascade=ALL, mappedBy="court")
-    public Collection<LineItem> getReserves() {
+    public Collection<Reserve> getReserves() {
         return reserves;
     }
 
