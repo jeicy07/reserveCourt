@@ -17,18 +17,9 @@ import javax.persistence.TableGenerator;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-/* @IdClass(PartKey.class)*/
+
 @Entity
 @Table(name="PERSISTENCE_RESERVE")
-/*@SecondaryTable(name="PERSISTENCE_ORDER_PART_DETAIL", pkJoinColumns={
-   @PrimaryKeyJoinColumn(name="PARTNUMBER", referencedColumnName="PARTNUMBER"),
-   @PrimaryKeyJoinColumn(name="REVISION", referencedColumnName="REVISION")
-})
-@NamedQuery(
-    name="findAllParts",
-    query="SELECT p FROM Part p " +
-          "ORDER BY p.partNumber"
-)*/
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
     private Long reserve_id;
