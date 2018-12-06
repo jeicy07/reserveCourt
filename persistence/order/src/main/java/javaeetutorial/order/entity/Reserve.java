@@ -1,4 +1,6 @@
 
+package javaeetutorial.order.entity;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -11,13 +13,25 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.DATE;
 import static javax.persistence.CascadeType.ALL;
+import javax.persistence.TableGenerator;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
+/* @IdClass(PartKey.class)*/
 @Entity
 @Table(name="PERSISTENCE_RESERVE")
-
+/*@SecondaryTable(name="PERSISTENCE_ORDER_PART_DETAIL", pkJoinColumns={
+   @PrimaryKeyJoinColumn(name="PARTNUMBER", referencedColumnName="PARTNUMBER"),
+   @PrimaryKeyJoinColumn(name="REVISION", referencedColumnName="REVISION")
+})
+@NamedQuery(
+    name="findAllParts",
+    query="SELECT p FROM Part p " +
+          "ORDER BY p.partNumber"
+)*/
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
-    private int reserve_id;
+    private Long reserve_id;
     private int court_id;
     private Date start_date;
     private int start_hour;
@@ -26,11 +40,12 @@ public class Reserve implements Serializable {
     
     public Reserve() {}
     
-    public Reserve(int reserve_id,
+    public Reserve(Long reserve_id,
             int court_id,
             Date start_date,
             int start_hour,
             int user_id,
+            String username,
             int status) {
         this.reserve_id = reserve_id;
         this.court_id = court_id;
@@ -39,14 +54,25 @@ public class Reserve implements Serializable {
         this.username = username;
         this.status = status;
     }
-
+    
+    @TableGenerator(
+            name="reserveIdGen",
+            table = "RESERVE_ID_GENERATOR",
+            pkColumnName="GEN_KEY",
+            valueColumnName="GEN_VALUE",
+            pkColumnValue="RESERVE_ID",
+            initialValue = 1,
+            allocationSize=1
+            )
     @Id
+    @GeneratedValue(strategy=GenerationType.TABLE,
+            generator="RESERVE_ID_GENERATOR")
     @Column(nullable=false)
-    public int getReserveId() {
+    public Long getReserveId() {
         return reserve_id;
     }
 
-    public void setReserveId(int reserve_id) {
+    public void setReserveId(Long reserve_id) {
         this.reserve_id = reserve_id;
     }
 
@@ -109,3 +135,5 @@ public class Reserve implements Serializable {
     }
     
 }
+    
+    
