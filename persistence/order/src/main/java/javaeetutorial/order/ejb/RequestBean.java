@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 import javaeetutorial.order.entity.CustomerOrder;
 import javaeetutorial.order.entity.LineItem;
 import javaeetutorial.order.entity.Part;
@@ -297,23 +298,26 @@ public class RequestBean {
         return report.toString();
     }
     
-    public boolean reserve_court(Integer orderId, int start_time, int hour){
+    public boolean reserve_court(int reserve_id, int court_id, Date start_date,
+            int hour, String user_name, int status){
         try {
-            CustomerOrder order = new CustomerOrder();
-            order.setOrderId(orderID);
-            order.setStart_time(start_time);
-            order.setHour(hour);
-            em.persist(order);
+            Reserve reserve = new CustomerOrder();
+            reserve.setReserve_id(reserve_id);
+            reserve.setCourt_id(court_id);
+            reserve.setStart_date(start_date);
+            reserve.setstart_hour(hour);
+            reserve.setStatus(status);
+            em.persist(reserve);
             return true;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
     }
     
-    public boolean cancel_reserve(Integer reserve_id) {
+    public boolean cancel_reserve(int reserve_id) {
         try {
-            CustomerOrder order = em.find(CustomerOrder.class, reserve_id);
-            em.remove(order);
+            Reserve reserve = em.find(Reserve.class, reserve_id);
+            em.remove(reserve);
             return true;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
