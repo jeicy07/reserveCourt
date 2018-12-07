@@ -23,14 +23,16 @@ import javax.persistence.NamedQueries;
 @Table(name="PERSISTENCE_RESERVE")
 @NamedQueries({
     @NamedQuery(
-    name="findAllReservedCourts",
-    query="SELECT r FROM Reserve r "+
-    	"WHERE r.user.username=:username "+
-    	"ORDER BY r.username"
+    name="findAllReserves",
+    query="SELECT re FROM Reserve re "+
+        "WHERE re.user.username=:username "+
+        "ORDER BY re.user.username"
 ),
     @NamedQuery(
-    name="findAllReserves",
-    query="SELECT r FROM reserve r ORDER BY r.reserve_id"
+    name="findAllReservedCourts",
+    query="SELECT re FROM Reserve re "
+          + "WHERE re.start_date =:start_date AND re.start_hour =:start_hour "
+          + "ORDER BY re.court.court_id"
 )
 })
 
@@ -81,7 +83,7 @@ public class Reserve implements Serializable {
     }
     public void setCourt(Court court)
     {
-    	this.court = court;
+        this.court = court;
     }
     
     @Temporal(DATE)
@@ -110,7 +112,7 @@ public class Reserve implements Serializable {
     }
     public void setUser(User user)
     {
-    	this.user = user;
+        this.user = user;
     }
 
     
