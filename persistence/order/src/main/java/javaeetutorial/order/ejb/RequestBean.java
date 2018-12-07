@@ -296,4 +296,28 @@ public class RequestBean {
         }
         return report.toString();
     }
+    
+    public boolean reserve_court(Integer orderId, int start_time, int hour){
+        try {
+            CustomerOrder order = new CustomerOrder();
+            order.setOrderId(orderID);
+            order.setStart_time(start_time);
+            order.setHour(hour);
+            em.persist(order);
+            return true;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+    public boolean cancel_reserve(Integer reserve_id) {
+        try {
+            CustomerOrder order = em.find(CustomerOrder.class, reserve_id);
+            em.remove(order);
+            return true;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+            //return false;
+        }
+    }
 }

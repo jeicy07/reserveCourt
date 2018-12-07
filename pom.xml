@@ -103,7 +103,6 @@
         <module>jaxrs</module>
         <module>jaxws</module>
         <module>jms</module>
-        <module>persistence</module>
         <module>security</module>
         <module>web</module>
     </modules>
