@@ -5,6 +5,7 @@ import java.util.Collection;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -12,16 +13,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="PERSISTENCE_COURT")
-@NamedQuery(
-        name="findAllCourts",
-        query="SELECT co FROM Court co " +
+@NamedQueries({
+    @NamedQuery(
+        name = "findAllCourts",
+        query = "SELECT co FROM Court co " +
                 "ORDER BY co.court_id"
+),
+    @NamedQuery(
+    name = "findCourtsByCategory",
+    query = "SELECT co FROM Court co "
+           + "WHERE co.category = :category "
+           + "ORDER BY co.court_id"
 )
+})
+
 public class Court implements java.io.Serializable {
     private static final long serialVersionUID = 6582105865012174694L;
     private Integer court_id;
-    private char court_category;
-    private char stadium;
+    private Integer court_category;   //1: basketball;   2: pingpang;  3: badminton
+    private Integer stadium;    //1: guangti;  2: nanti;   3: xnti;  4:guangbiaolou
     private int court_no;
     private Collection<Reserve> reserves;
 
@@ -29,8 +39,7 @@ public class Court implements java.io.Serializable {
     public Court() {
     }
 
-    public Court(Integer court_id, char court_category, char stadium,
-                         int court_no) {
+    public Court(Integer court_id, int court_category, int stadium, int court_no) {
         this.court_id = court_id;
         this.court_category = court_category;
         this.stadium = stadium;
@@ -46,19 +55,19 @@ public class Court implements java.io.Serializable {
         this.court_id = court_id;
     }
 
-    public char getCourtCategory() {
+    public int getCourtCategory() {
         return court_category;
     }
 
-    public void setCourtCategory(char court_category) {
+    public void setCourtCategory(int court_category) {
         this.court_category = court_category;
     }
 
-    public char getStadium() {
+    public int getStadium() {
         return stadium;
     }
 
-    public void setStadium(char stadium) {
+    public void setStadium(int stadium) {
         this.stadium = stadium;
     }
 
