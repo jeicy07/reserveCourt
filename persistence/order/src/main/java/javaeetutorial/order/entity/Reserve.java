@@ -25,43 +25,43 @@ import javax.persistence.NamedQueries;
             name = "findAllReserves",
             query = "SELECT re FROM Reserve re "+
                     "WHERE re.user.username = :username "+
-                    "ORDER BY re.start_date"
-),
+                    "ORDER BY re.startDate"
+),   
     @NamedQuery(
             name = "findReservesByTime",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.start_date = :start_date AND re.start_hour = :start_hour "
-                    + "re.status = 1 ORDER BY re.court.court_id"
+                    + "WHERE re.startDate = :start_date AND re.startHour = :start_hour "
+                    + "AND re.status = 1 ORDER BY re.court.courtId"
 ),
     @NamedQuery(
             name = "findReservesByCourtIDAndDate",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.court.court_id = :court_id AND re.start_date = :start_date "
-                    + "re.status = 1 ORDER BY re.start_hour"
+                    + "WHERE re.court.courtId = :court_id AND re.startDate = :start_date "
+                    + "AND re.status = 1 ORDER BY re.startHour"
 ),
     @NamedQuery(
             name = "findReservedCourtsByCategoryAndTime",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.court.category = :category AND re.start_date = :start_date "
-                    + "AND re.start_hour = :start_hour AND re.status = 1 ORDER BY re.court.court_id"
+                    + "WHERE re.court.courtCategory = :category AND re.startDate = :start_date "
+                    + "AND re.startHour = :start_hour AND re.status = 1 ORDER BY re.court.courtId"
     
 ),
 })
 
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
-    private Long reserve_id;
+    private Long reserveId;
     private Court court;
-    private Calendar start_date;
-    private int start_hour;
+    private Calendar startDate;
+    private int startHour;
     private User user;
     private int status;     //1: success;   2: cancel;   3: fail
     
     public Reserve() {}
     
     public Reserve(Calendar start_date, int start_hour) {
-        this.start_date = start_date;
-        this.start_hour = start_hour;
+        this.startDate = start_date;
+        this.startHour = start_hour;
     }
     
     @TableGenerator(
@@ -78,14 +78,14 @@ public class Reserve implements Serializable {
             generator="RESERVE_ID_GENERATOR")
     @Column(nullable=false)
     public Long getReserveId() {
-        return reserve_id;
+        return reserveId;
     }
     public void setReserveId(Long reserve_id) {
-        this.reserve_id = reserve_id;
+        this.reserveId = reserve_id;
     }
 
     @ManyToOne
-    @JoinColumn(name="court_id")
+    @JoinColumn(name="courtId")
     public Court getCourt()
     {
         return court;
@@ -96,21 +96,21 @@ public class Reserve implements Serializable {
     }
 
     @Temporal(javax.persistence.TemporalType.DATE)
-    public Calendar getStart_date() {
-        return start_date;
+    public Calendar getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(Calendar start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Calendar start_date) {
+        this.startDate = start_date;
     }
     
     
     public int getStartHour() {
-        return start_hour;
+        return startHour;
     }
 
     public void setStartHour(int start_hour) {
-        this.start_hour = start_hour;
+        this.startHour = start_hour;
     }
     
     

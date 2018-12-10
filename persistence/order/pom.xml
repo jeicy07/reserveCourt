@@ -19,6 +19,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
+                    <container>
+29                           <!-- 指明使用的tomcat服务器版本 -->
+30                      <containerId>glassfish4x</containerId>
+31                         <!--指明tomcat服务器的安装目录 -->
+32                      <home>/Applications/NetBeans/glassfish-4.1.1</home>
+33                  </container>
+34                  <configuration>
+35                      <type>existing</type>
+36                         <!--指明tomcat服务器的安装目录 -->
+37                      <home>/Applications/NetBeans/glassfish-4.1.1</home>
+38                  </configuration>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
