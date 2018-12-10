@@ -28,7 +28,7 @@ public class RequestBean {
     private static final Logger logger = Logger.getLogger("order.ejb.RequestBean");
     
     // by d10
-    public void createCourt(Integer court_id, int court_category,
+    public void createCourt(int court_id, int court_category,
                             int stadium, int court_no){
         try {
             Court court = new Court(court_id, court_category, stadium, court_no);

@@ -71,6 +71,10 @@ public class User implements java.io.Serializable {
         return reserves;
     }
 
+    public void setReserves(Collection<Reserve> reserves) {
+        this.reserves = reserves;
+    }
+
 
 }
 

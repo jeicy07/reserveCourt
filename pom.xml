@@ -35,7 +35,7 @@
         <glassfish.embedded.version>4.0</glassfish.embedded.version>
         <cargo.plugin.version>1.4.4</cargo.plugin.version>
         <glassfish.domain.name>domain1</glassfish.domain.name>
-        <glassfish.home>${glassfish.home.prefix}/glassfish4</glassfish.home>
+        <glassfish.home>${glassfish.home.prefix}/glassfish-4.1.1</glassfish.home>
         <integration.container.id>glassfish4x</integration.container.id>
     </properties>
     
