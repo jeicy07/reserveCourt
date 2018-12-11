@@ -12,38 +12,38 @@ import java.util.List;
  * @author jicl
  */
 public class Available {
-    private int court_id;
-    private Calendar start_date;
-    private List<Integer> start_hour;
+    private int courtId;
+    private Calendar startDate;
+    private List<Integer> startHour;
     
     public Available(int court_id, Calendar start_date, List<Integer> start_hour){
-        this.court_id = court_id;
-        this.start_date = start_date;
-        this.start_hour = start_hour;
+        this.courtId = court_id;
+        this.startDate = start_date;
+        this.startHour = start_hour;
     }
 
     public int getCourt_id() {
-        return court_id;
+        return courtId;
     }
 
     public Calendar getStart_date() {
-        return start_date;
+        return startDate;
     }
 
     public List<Integer> getStart_hour() {
-        return start_hour;
+        return startHour;
     }
 
     public void setCourt_id(int court_id) {
-        this.court_id = court_id;
+        this.courtId = court_id;
     }
 
     public void setStart_date(Calendar start_date) {
-        this.start_date = start_date;
+        this.startDate = start_date;
     }
 
     public void setStart_hour(List<Integer> start_hour) {
-        this.start_hour = start_hour;
+        this.startHour = start_hour;
     }
     
 }
