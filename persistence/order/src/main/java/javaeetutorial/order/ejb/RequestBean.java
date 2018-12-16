@@ -28,10 +28,10 @@ public class RequestBean {
     private static final Logger logger = Logger.getLogger("order.ejb.RequestBean");
     
     // by d10
-    public void createCourt(int court_id, int court_category,
-                            int stadium, int court_no){
+    public void createCourt(int courtId, int courtCategory,
+                            int stadium, int courtNo){
         try {
-            Court court = new Court(court_id, court_category, stadium, court_no);
+            Court court = new Court(courtId, courtCategory, stadium, courtNo);
             em.persist(court);
         } catch (Exception e) {
             throw new EJBException(e);
@@ -53,14 +53,14 @@ public class RequestBean {
     }
     
     // by sun
-    public void createReserve(int court_id,
-            Calendar start_date,
-            int start_hour,
+    public void createReserve(int courtId,
+            Calendar startDate,
+            int startHour,
             String username) {
         try {
-            Reserve reserve = new Reserve(start_date,start_hour);
+            Reserve reserve = new Reserve(startDate,startHour);
 
-            Court court = em.find(Court.class,court_id);
+            Court court = em.find(Court.class,courtId);
             reserve.setCourt(court);
 
             User user = em.find(User.class,username);
@@ -121,7 +121,7 @@ public class RequestBean {
     }
 
     // by fuli 
-    public User user_info(String username){
+    public User userInfo(String username){
         try{ 
             User user = em.find(User.class, username);
             return user;
@@ -131,12 +131,12 @@ public class RequestBean {
     }
     
     // by van
-    public boolean reserveCourt(int court_id, int year, int month, int date,
+    public boolean reserveCourt(int courtId, int year, int month, int date,
             int hour, String username){
         try {
             Calendar reDate = Calendar.getInstance();
             reDate.set(year, month, date);
-            createReserve(court_id, reDate, hour, username);
+            createReserve(courtId, reDate, hour, username);
             return true;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());          
@@ -144,9 +144,9 @@ public class RequestBean {
     }
     
     // by van
-    public boolean cancelReserve(int reserve_id) {
+    public boolean cancelReserve(int reserveId) {
         try {
-            Reserve reserve = em.find(Reserve.class, reserve_id);
+            Reserve reserve = em.find(Reserve.class, reserveId);
             reserve.setStatus(2);
             em.persist(reserve);
             return true;
@@ -163,8 +163,8 @@ public class RequestBean {
         List<Integer>  result = new ArrayList<>();
         List<Integer>  list1 = new ArrayList<>();
 
-        for (int court_id = 1; court_id < 14; court_id++){
-            list1.add(court_id);
+        for (int courtId = 1; courtId < 14; courtId++){
+            list1.add(courtId);
         }
 
         for(i = 0; i < list1.size(); i++){
@@ -177,25 +177,25 @@ public class RequestBean {
     }
     
     // by d10
-    public List<Integer> queryByTime(Calendar start_date, int start_hour){
+    public List<Integer> queryByTime(Calendar startDate, int startHour){
         
-        List<Integer> reserved_court_ids = new ArrayList<>();
-        List<Integer> available_court_ids = new ArrayList<>();
+        List<Integer> reservedCourtIds = new ArrayList<>();
+        List<Integer> availableCourtIds = new ArrayList<>();
         try {
-            List reserved_courts;
-            reserved_courts = em.createNamedQuery("findReservesByTime")
-                    .setParameter("start_date", start_date)
-                    .setParameter("start_hour", start_hour)
+            List reservedCourts;
+            reservedCourts = em.createNamedQuery("findReservesByTime")
+                    .setParameter("startDate", startDate)
+                    .setParameter("startHour", startHour)
                     .getResultList();
-            for (Iterator iterator = reserved_courts.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
-                reserved_court_ids.add(re.getCourt().getCourtId());
+                reservedCourtIds.add(re.getCourt().getCourtId());
             }
-            available_court_ids = remove(reserved_court_ids);
+            availableCourtIds = remove(reservedCourtIds);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return available_court_ids;
+        return availableCourtIds;
     }
     
     // by jeicy
@@ -226,8 +226,8 @@ public class RequestBean {
                     
                     List reserves;
                     reserves = em.createNamedQuery("findReservesByCourtIDAndDate")
-                        .setParameter("court_id", co.getCourtId())
-                        .setParameter("start_date", today)
+                        .setParameter("courtId", co.getCourtId())
+                        .setParameter("startDate", today)
                         .getResultList();  
                     if (reserves != null){
                         for (Iterator reIt = reserves.iterator(); reIt.hasNext();){
@@ -248,28 +248,28 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Integer> queryByTimeAndCategory(Calendar start_date, 
-                                                    int start_hour, 
+    public List<Integer> queryByTimeAndCategory(Calendar startDate, 
+                                                    int startHour, 
                                                     int category){
         
-        List<Integer> reserved_court_ids = new ArrayList<>();
-        List<Integer> available_court_ids = new ArrayList<>();
+        List<Integer> reservedCourtIds = new ArrayList<>();
+        List<Integer> availableCourtIds = new ArrayList<>();
         try {
-            List reserved_courts;
-            reserved_courts = em.createNamedQuery("findReservedCourtsByCategoryAndTime")
-                    .setParameter("start_date", start_date)
-                    .setParameter("start_hour", start_hour)
+            List reservedCourts;
+            reservedCourts = em.createNamedQuery("findReservedCourtsByCategoryAndTime")
+                    .setParameter("startDate", startDate)
+                    .setParameter("startHour", startHour)
                     .setParameter("category", category)
                     .getResultList();
-            for (Iterator iterator = reserved_courts.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
-                reserved_court_ids.add(re.getCourt().getCourtId());
+                reservedCourtIds.add(re.getCourt().getCourtId());
             }
-            available_court_ids = remove(reserved_court_ids);
+            availableCourtIds = remove(reservedCourtIds);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return available_court_ids;
+        return availableCourtIds;
     }
  
     
