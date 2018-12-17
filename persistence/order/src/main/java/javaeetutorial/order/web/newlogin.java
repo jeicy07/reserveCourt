@@ -1,31 +1,30 @@
-package javaeetutorial.order.web;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package javaeetutorial.order.web;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javaeetutorial.order.ejb.RequestBean;
-import javaeetutorial.order.entity.Available;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ejb.EJB;
-
 
 /**
  *
- * @author jeicy
+ * @author jicl
  */
-
-public class queryByCategory extends HttpServlet {
+public class newlogin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,52 +38,50 @@ public class queryByCategory extends HttpServlet {
     @EJB
     private RequestBean requestBean;
     
-    private class queryCateReq {
+    private class logInResp {
 
-        public queryCateReq(int category) {
-            this.category = category;
+        public logInResp(int status) {
+            this.status = status;
         }
-        public int category;
+        public int status;
     }
     
-    private class queryCateResp {
-
-        public queryCateResp(List<Available> results) {
-            this.results = results;
-        }
-        public List<Available> results;
-    }
-    
-    private String readJSONData(HttpServletRequest request) {
-        StringBuffer json = new StringBuffer();
-        String lineString = null;
-        try {
-            BufferedReader reader = request.getReader();
-            while ((lineString = reader.readLine()) != null) {
-                json.append(lineString);                
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return json.toString();
-    }
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");		  
 	response.addHeader("Access-Control-Allow-Origin","*");	
-        String json = readJSONData(request);
-        Gson gson = new Gson();
-        queryCateReq reqData = gson.fromJson(json, queryCateReq.class);
-        // return Data
-        List<Available> finalResult = requestBean.queryByCategory(reqData.category);
-        queryCateResp respData = new queryCateResp(finalResult);
-        json=gson.toJson(respData);        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+
+        try {
+            //read data
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            
+            //connect database
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+            Connection conn = null;
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sun-appserv-samples");
+            
+            //query
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM PERSISTENCE_USER");
+            
+            //deal with outcome
+            rs.next();
+            String usn = rs.getString(1);      
+            System.out.println(usn);
+            
+            int finalStatus = 10;
+
+            Gson gson = new Gson();
+            newlogin.logInResp respData = new newlogin.logInResp(finalStatus);
+            String json = gson.toJson(respData); 
+            PrintWriter out = response.getWriter();
             out.println(json);
-            //out.println(password);
+           
+        } catch (Exception e){
+            System.out.println(e);
         }
+            
     }
     
     @Override

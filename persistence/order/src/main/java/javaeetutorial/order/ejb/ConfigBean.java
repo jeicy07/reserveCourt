@@ -45,7 +45,7 @@ public class ConfigBean {
         request.createCourt(1313, 3, 3, 2);
         request.createCourt(1414, 3, 3, 3);
         
-        request.createUser("renminbi", "ren", "12345678", "18800000000");
+        request.createUser("renminbibi", "ren", "12345678", "18800000000");
         request.createUser("meiyuan","mei","1111111111","18712345678");
         request.createUser("zhenpiaoliang","zhen","zpl666666","13333333333");
         request.createUser("jiatianwang","jia","jtw23333","17105555555");

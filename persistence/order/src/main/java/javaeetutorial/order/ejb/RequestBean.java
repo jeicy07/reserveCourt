@@ -199,7 +199,7 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Available> queryByCategory(int category){
+    public List<Available> queryByCategory(String category){
         List<Available> results = new ArrayList<>();
         
         try {
@@ -289,6 +289,6 @@ public class RequestBean {
     }
 
     void createCourt(int i, String 篮球, String 光体, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.      
     }
 }
