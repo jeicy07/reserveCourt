@@ -199,7 +199,7 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Available> queryByCategory(String category){
+    public List<Available> queryByCategory(int category){
         List<Available> results = new ArrayList<>();
         
         try {
