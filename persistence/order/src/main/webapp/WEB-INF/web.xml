@@ -24,6 +24,14 @@
         <servlet-name>cancel</servlet-name>
         <servlet-class>javaeetutorial.order.web.cancel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>userInfo</servlet-name>
+        <servlet-class>javaeetutorial.order.web.userInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>allCourts</servlet-name>
+        <servlet-class>javaeetutorial.order.web.allCourts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>newlogin</servlet-name>
         <url-pattern>/newlogin</url-pattern>
@@ -43,6 +51,14 @@
     <servlet-mapping>
         <servlet-name>cancel</servlet-name>
         <url-pattern>/cancel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userInfo</servlet-name>
+        <url-pattern>/userInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allCourts</servlet-name>
+        <url-pattern>/allCourts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
