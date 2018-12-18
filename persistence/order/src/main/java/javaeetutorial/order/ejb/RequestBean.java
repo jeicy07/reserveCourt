@@ -173,16 +173,26 @@ public class RequestBean {
     }
 
     
-    // by d10: create time array and remove reserved time
+  // by d10: create time array and remove reserved time
     public static List<Integer> remove(List<Integer>  list2){
         int i, j;
-        List<Integer>  result = new ArrayList<>();
-        List<Integer>  list1 = new ArrayList<>();
-
-        for (int courtId = 1; courtId < 14; courtId++){
-            list1.add(courtId);
-        }
-
+        List<Integer> result = new ArrayList<>();
+        List<Integer> list1 = new ArrayList<>();
+        
+        list1.add(1111);
+        list1.add(2222);
+        list1.add(3333);
+        list1.add(4444);
+        list1.add(5555);
+        list1.add(6666);
+        list1.add(7777);
+        list1.add(8888);
+        list1.add(9999);
+        list1.add(1010);
+        list1.add(1414);
+        list1.add(1212);
+        list1.add(1313);
+        
         for(i = 0; i < list1.size(); i++){
             for (j = 0; j < list2.size(); j++){
                 if (list1.get(i).equals(list2.get(j))){break;}
@@ -192,27 +202,30 @@ public class RequestBean {
         return result;
     }
     
-    // by d10
-    public List<Integer> queryByTime(Calendar startDate, int startHour){
+// by d10
+    public List<Integer> queryByTime(int year, int month, int date, int startHour){
         
-        List<Integer> reservedCourtIds = new ArrayList<>();
-        List<Integer> availableCourtIds = new ArrayList<>();
+        List<Integer> reserved_court_ids = new ArrayList<>();
+        List<Integer> available_court_ids = new ArrayList<>();
         try {
-            List reservedCourts;
-            reservedCourts = em.createNamedQuery("findReservesByTime")
+            List reserved_courts;
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(year, month-1, date);
+            reserved_courts = em.createNamedQuery("findReservesByTime")
                     .setParameter("startDate", startDate)
                     .setParameter("startHour", startHour)
                     .getResultList();
-            for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = reserved_courts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
-                reservedCourtIds.add(re.getCourt().getCourtId());
+                reserved_court_ids.add(re.getCourt().getCourtId());
             }
-            availableCourtIds = remove(reservedCourtIds);
+            available_court_ids = remove(reserved_court_ids);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return availableCourtIds;
+        return available_court_ids;
     }
+
     
     // by jeicy
     public List<Available> queryByCategory(int category){
@@ -228,12 +241,10 @@ public class RequestBean {
                 Court co = (Court)coIt.next();    
                 Calendar today = Calendar.getInstance();
                 int cnt = 1;
-                System.out.println(today);
                 
                 while (cnt < 8){  
                     // everyday in a week
                     today.add(Calendar.DATE, 1);
-                    System.out.println(today);
                     int year = today.get(Calendar.YEAR);
                     int month = today.get(Calendar.MONTH) + 1;
                     int date = today.get(Calendar.DAY_OF_MONTH);
