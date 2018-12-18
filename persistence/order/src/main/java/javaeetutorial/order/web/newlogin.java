@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javaeetutorial.order.ejb.RequestBean;
 import javax.ejb.EJB;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +37,8 @@ public class newlogin extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @EJB
-    private RequestBean requestBean;
+    @PersistenceUnit
+    private EntityManagerFactory emf;
     
     private class logInResp {
 
@@ -57,20 +59,9 @@ public class newlogin extends HttpServlet {
             String password = request.getParameter("password");
             
             //connect database
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/sun-appserv-samples");
-            
-            //query
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM PERSISTENCE_USER");
-            
-            //deal with outcome
-            rs.next();
-            String usn = rs.getString(1);      
-            System.out.println(usn);
-            
-            int finalStatus = 10;
+            RequestBean requestb = new RequestBean(emf);
+
+            int finalStatus = requestb.login(username, password);
 
             Gson gson = new Gson();
             newlogin.logInResp respData = new newlogin.logInResp(finalStatus);
