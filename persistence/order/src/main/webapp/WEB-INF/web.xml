@@ -36,6 +36,10 @@
         <servlet-name>allReserves</servlet-name>
         <servlet-class>javaeetutorial.order.web.allReserves</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>queryByCategory</servlet-name>
+        <servlet-class>javaeetutorial.order.web.queryByCategory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>newlogin</servlet-name>
         <url-pattern>/newlogin</url-pattern>
@@ -67,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>allReserves</servlet-name>
         <url-pattern>/allReserves</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>queryByCategory</servlet-name>
+        <url-pattern>/queryByCategory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -30,20 +30,20 @@ import javax.persistence.NamedQueries;
     @NamedQuery(
             name = "findReservesByTime",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.startDate = :start_date AND re.startHour = :start_hour "
+                    + "WHERE re.startDate = :startDate AND re.startHour = :startHour "
                     + "AND re.status = 1 ORDER BY re.court.courtId"
 ),
     @NamedQuery(
             name = "findReservesByCourtIDAndDate",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.court.courtId = :court_id AND re.startDate = :start_date "
+                    + "WHERE re.court.courtId = :courtId AND re.startDate = :startDate "
                     + "AND re.status = 1 ORDER BY re.startHour"
 ),
     @NamedQuery(
             name = "findReservedCourtsByCategoryAndTime",
             query = "SELECT re FROM Reserve re "
-                    + "WHERE re.court.courtCategory = :category AND re.startDate = :start_date "
-                    + "AND re.startHour = :start_hour AND re.status = 1 ORDER BY re.court.courtId"
+                    + "WHERE re.court.courtCategory = :category AND re.startDate = :startDate "
+                    + "AND re.startHour = :startHour AND re.status = 1 ORDER BY re.court.courtId"
     
 ),
 })

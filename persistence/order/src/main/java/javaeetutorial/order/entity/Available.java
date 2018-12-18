@@ -13,37 +13,59 @@ import java.util.List;
  */
 public class Available {
     private int courtId;
-    private Calendar startDate;
+    private int year;
+    private int month;
+    private int date;
     private List<Integer> startHour;
     
-    public Available(int court_id, Calendar start_date, List<Integer> start_hour){
-        this.courtId = court_id;
-        this.startDate = start_date;
-        this.startHour = start_hour;
+    public Available(int courtId, int year, int month, int date, List<Integer> startHour){
+        this.courtId = courtId;
+        this.year = year;
+        this.month = month;
+        this.date = date;
+        this.startHour = startHour;
     }
 
-    public int getCourt_id() {
+    public int getCourtId() {
         return courtId;
     }
 
-    public Calendar getStart_date() {
-        return startDate;
+    public int getYear() {
+        return year;
     }
 
-    public List<Integer> getStart_hour() {
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    public List<Integer> getStartHour() {
         return startHour;
     }
 
-    public void setCourt_id(int court_id) {
-        this.courtId = court_id;
+    public void setCourtId(int courtId) {
+        this.courtId = courtId;
     }
 
-    public void setStart_date(Calendar start_date) {
-        this.startDate = start_date;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public void setStart_hour(List<Integer> start_hour) {
-        this.startHour = start_hour;
+    public void setMonth(int month) {
+        this.month = month;
     }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    public void setStartHour(List<Integer> startHour) {
+        this.startHour = startHour;
+    }
+
+    
     
 }

@@ -215,7 +215,7 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Available> queryByCategory(String category){
+    public List<Available> queryByCategory(int category){
         List<Available> results = new ArrayList<>();
         
         try {
@@ -226,13 +226,18 @@ public class RequestBean {
             for (Iterator coIt = courts.iterator(); coIt.hasNext();){
                 // every court that matches catogory
                 Court co = (Court)coIt.next();    
-                
                 Calendar today = Calendar.getInstance();
                 int cnt = 1;
+                System.out.println(today);
                 
                 while (cnt < 8){  
                     // everyday in a week
                     today.add(Calendar.DATE, 1);
+                    System.out.println(today);
+                    int year = today.get(Calendar.YEAR);
+                    int month = today.get(Calendar.MONTH) + 1;
+                    int date = today.get(Calendar.DAY_OF_MONTH);
+                    
                     
                     List<Integer> hour = new ArrayList<>();       
                     for(int i = 16; i < 22; i++)
@@ -249,13 +254,14 @@ public class RequestBean {
                         for (Iterator reIt = reserves.iterator(); reIt.hasNext();){
                             //delete every reservation on that day
                             Reserve re = (Reserve)reIt.next();
-                            hour.remove(re.getStartHour());
+                            //hour.remove(re.getStartHour());
+                            hour.remove((Integer)re.getStartHour());
                         }
                     }
-                    Available tmp = new Available(co.getCourtId(), today, hour);
+                    Available tmp = new Available(co.getCourtId(), year, month, date, hour);
                     results.add(tmp);
                     cnt++;
-                }               
+                } 
             }         
         } catch (Exception e){
             throw new EJBException(e.getMessage());
