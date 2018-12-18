@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jicl
  */
-public class newlogin extends HttpServlet {
+public class modify extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,9 +33,9 @@ public class newlogin extends HttpServlet {
     @EJB
     private RequestBean requestb;
     
-    private class logInResp {
+    private class modResp {
 
-        public logInResp(boolean status) {
+        public modResp(boolean status) {
             this.status = status;
         }
         public boolean status;
@@ -49,15 +49,16 @@ public class newlogin extends HttpServlet {
         try {
             //read data
             String username = request.getParameter("username");
-            String password = request.getParameter("password");
+            String newPassword = request.getParameter("newPassword");
+            String newPhone = request.getParameter("newPhone");
             
             //connect database
             
 
-            boolean finalStatus = requestb.login(username, password);
+            boolean finalStatus = requestb.modify(username, newPassword, newPhone);
 
             Gson gson = new Gson();
-            newlogin.logInResp respData = new newlogin.logInResp(finalStatus);
+            modify.modResp respData = new modify.modResp(finalStatus);
             String json = gson.toJson(respData); 
             PrintWriter out = response.getWriter();
             out.println(json);

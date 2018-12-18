@@ -80,10 +80,6 @@ public class RequestBean {
     // by fuli
     public boolean register(String username, String password, String name, String telephone) {           
         try {    
-            logger.log(Level.INFO,username);
-            logger.log(Level.INFO,password);
-            logger.log(Level.INFO,name);
-            logger.log(Level.INFO,telephone);
             User user1 = em.find(User.class, username);
             if (user1 == null){
                 createUser(username, password, name, telephone);
@@ -113,15 +109,29 @@ public class RequestBean {
     // by fuli
     public boolean modify (String username, String newPassword, String newPhone){
         try {
+            logger.log(Level.INFO,username);
+            logger.log(Level.INFO,newPassword);
+            logger.log(Level.INFO,newPhone);
             User user1 = em.find(User.class, username);
-            if (user1 != null && (!user1.getPassword().equals(newPassword) || 
-                    !user1.getPassword().equals(newPhone))){
-                user1.setPassword(newPassword);
-                user1.setPhone(newPhone);
-                em.merge(user1);
-                em.flush();
-                return true;
-            }              
+            if (user1 != null){
+                logger.log(Level.INFO,"ffff");
+                if (!"".equals(newPassword) || !"".equals(newPhone)){
+                    if (!"".equals(newPassword)){
+                        user1.setPassword(newPassword);
+                    }
+                    if (!"".equals(newPhone)){
+                        user1.setPhone(newPhone);
+                    }
+                    em.merge(user1);
+                    em.flush();
+                    return true;
+                    
+                }
+                else return false;
+               
+            }
+            
+                       
         } catch (EJBException e) {
             throw new EJBException(e.getMessage());
         } 
