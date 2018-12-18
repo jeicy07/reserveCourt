@@ -32,6 +32,10 @@
         <servlet-name>allCourts</servlet-name>
         <servlet-class>javaeetutorial.order.web.allCourts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>allReserves</servlet-name>
+        <servlet-class>javaeetutorial.order.web.allReserves</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>newlogin</servlet-name>
         <url-pattern>/newlogin</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>allCourts</servlet-name>
         <url-pattern>/allCourts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allReserves</servlet-name>
+        <url-pattern>/allReserves</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
