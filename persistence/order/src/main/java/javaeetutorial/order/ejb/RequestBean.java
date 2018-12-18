@@ -300,7 +300,7 @@ public class RequestBean {
 
     // by sun
     public List<Court> getAllCourts(){
-        List<Court> courts = (List<Court>)em.createNamedQuery("findCourtsByCourtId").getResultList();
+        List<Court> courts = (List<Court>)em.createNamedQuery("findAllCourts").getResultList();
         return courts;
     }
 
