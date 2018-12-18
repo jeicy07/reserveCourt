@@ -60,6 +60,7 @@ public class RequestBean {
             String username) {
         try {
             Reserve reserve = new Reserve(startDate,startHour);
+            em.persist(reserve);
 
             Court court = em.find(Court.class,courtId);
             reserve.setCourt(court);
@@ -68,7 +69,8 @@ public class RequestBean {
             reserve.setUser(user);
             
             reserve.setStatus(1);
-            em.persist(reserve);
+            em.merge(reserve);
+            em.flush();
 
         } catch (Exception ex) {
             throw new EJBException(ex.getMessage());
@@ -78,6 +80,10 @@ public class RequestBean {
     // by fuli
     public boolean register(String username, String password, String name, String telephone) {           
         try {    
+            logger.log(Level.INFO,username);
+            logger.log(Level.INFO,password);
+            logger.log(Level.INFO,name);
+            logger.log(Level.INFO,telephone);
             User user1 = em.find(User.class, username);
             if (user1 == null){
                 createUser(username, password, name, telephone);
@@ -112,7 +118,8 @@ public class RequestBean {
                     !user1.getPassword().equals(newPhone))){
                 user1.setPassword(newPassword);
                 user1.setPhone(newPhone);
-                em.persist(user1);
+                em.merge(user1);
+                em.flush();
                 return true;
             }              
         } catch (EJBException e) {
@@ -149,7 +156,8 @@ public class RequestBean {
         try {
             Reserve reserve = em.find(Reserve.class, reserveId);
             reserve.setStatus(2);
-            em.persist(reserve);
+            em.merge(reserve);
+            em.flush();
             return true;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
