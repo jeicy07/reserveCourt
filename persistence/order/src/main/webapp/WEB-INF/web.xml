@@ -20,6 +20,10 @@
         <servlet-name>reserve</servlet-name>
         <servlet-class>javaeetutorial.order.web.reserve</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>cancel</servlet-name>
+        <servlet-class>javaeetutorial.order.web.cancel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>newlogin</servlet-name>
         <url-pattern>/newlogin</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>reserve</servlet-name>
         <url-pattern>/reserve</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cancel</servlet-name>
+        <url-pattern>/cancel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

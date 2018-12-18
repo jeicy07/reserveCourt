@@ -153,7 +153,7 @@ public class RequestBean {
             int hour, String username){
         try {
             Calendar reDate = Calendar.getInstance();
-            reDate.set(year, month, date);
+            reDate.set(year, month-1, date);
             createReserve(courtId, reDate, hour, username);
             return true;
         } catch (Exception e) {
