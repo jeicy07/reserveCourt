@@ -26,13 +26,6 @@ public class RequestBean {
     @PersistenceContext
     private EntityManager em;
 
-    public RequestBean() {
-    }
-    
-    public RequestBean (EntityManagerFactory emf) throws Exception {
-        em = emf.createEntityManager();
-    }
-
     private static final Logger logger = Logger.getLogger("order.ejb.RequestBean");
     
     // by d10
@@ -98,17 +91,17 @@ public class RequestBean {
     }
 
     // by fuli
-    public int login (String username, String password){
+    public boolean login (String username, String password){
     
         try{
             User user1 = em.find(User.class, username);
             if(user1 != null && password.equals(user1.getPassword())){
-                return 1;
+                return true;
             }
         } catch(Exception e){
             throw new EJBException(e);
         }
-        return 2;      
+        return false;   
     }   
 
     // by fuli

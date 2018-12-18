@@ -37,15 +37,15 @@ public class newlogin extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @EJB
+    private RequestBean requestb;
     
     private class logInResp {
 
-        public logInResp(int status) {
+        public logInResp(boolean status) {
             this.status = status;
         }
-        public int status;
+        public boolean status;
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -59,9 +59,9 @@ public class newlogin extends HttpServlet {
             String password = request.getParameter("password");
             
             //connect database
-            RequestBean requestb = new RequestBean(emf);
+            
 
-            int finalStatus = requestb.login(username, password);
+            boolean finalStatus = requestb.login(username, password);
 
             Gson gson = new Gson();
             newlogin.logInResp respData = new newlogin.logInResp(finalStatus);
