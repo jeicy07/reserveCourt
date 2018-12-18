@@ -5,8 +5,11 @@
  */
 package javaeetutorial.order.web;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javaeetutorial.order.ejb.RequestBean;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,21 +30,48 @@ public class cancel extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @EJB
+    private RequestBean requestb;
+    
+    private class canResp {
+
+        public canResp(boolean status) {
+            this.status = status;
+        }
+        public boolean status;
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet cancel</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet cancel at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("text/html;charset=UTF-8");		  
+	response.addHeader("Access-Control-Allow-Origin","*");	
+
+        try {
+            //read data
+            int reserveId = Integer.parseInt(request.getParameter("reserveId")); 
+           
+            //connect database
+            boolean finalStatus = requestb.cancelReserve(reserveId);
+
+            Gson gson = new Gson();
+            cancel.canResp respData = new cancel.canResp(finalStatus);
+            String json = gson.toJson(respData); 
+            PrintWriter out = response.getWriter();
+            out.println(json);
+           
+        } catch (Exception e){
+            System.out.println(e);
         }
+            
+    }
+    
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+    throws ServletException, IOException {
+	resp.addHeader("Access-Control-Allow-Origin","*");		
+	resp.addHeader("Access-Control-Max-Age","1728000");		
+	resp.addHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS"); 
+	resp.addHeader("Access-Control-Allow-Headers", "User-Agent,Origin,Cache-Control,Content-type,x-zd,Date,Server,withCredentials");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

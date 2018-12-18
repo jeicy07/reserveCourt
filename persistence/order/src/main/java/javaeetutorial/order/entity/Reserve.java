@@ -50,7 +50,7 @@ import javax.persistence.NamedQueries;
 
 public class Reserve implements Serializable {
     private static final long serialVersionUID = -3082087016342644227L;
-    private Long reserveId;
+    private int reserveId;
     private Court court;
     private Calendar startDate;
     private int startHour;
@@ -77,10 +77,10 @@ public class Reserve implements Serializable {
     @GeneratedValue(strategy=GenerationType.TABLE,
             generator="RESERVE_ID_GENERATOR")
     @Column(nullable=false)
-    public Long getReserveId() {
+    public int getReserveId() {
         return reserveId;
     }
-    public void setReserveId(Long reserve_id) {
+    public void setReserveId(int reserve_id) {
         this.reserveId = reserve_id;
     }
 

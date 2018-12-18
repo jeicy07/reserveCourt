@@ -109,9 +109,6 @@ public class RequestBean {
     // by fuli
     public boolean modify (String username, String newPassword, String newPhone){
         try {
-            logger.log(Level.INFO,username);
-            logger.log(Level.INFO,newPassword);
-            logger.log(Level.INFO,newPhone);
             User user1 = em.find(User.class, username);
             if (user1 != null){
                 logger.log(Level.INFO,"ffff");
