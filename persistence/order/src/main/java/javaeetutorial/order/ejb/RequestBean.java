@@ -281,28 +281,45 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Integer> queryByTimeAndCategory(Calendar startDate, 
+    public List<Integer> queryByTimeAndCategory(int year, int month, int date, 
                                                     int startHour, 
                                                     int category){
         
         List<Integer> reservedCourtIds = new ArrayList<>();
-        List<Integer> availableCourtIds = new ArrayList<>();
+        List<Integer> cateCourtIds = new ArrayList<>();
+        
         try {
             List reservedCourts;
+            List cateCourts;
+            
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(year, month-1, date);
+            cateCourts = em.createNamedQuery("findCourtsByCategory")
+                    .setParameter("category", category)
+                    .getResultList();
+            
             reservedCourts = em.createNamedQuery("findReservedCourtsByCategoryAndTime")
                     .setParameter("startDate", startDate)
                     .setParameter("startHour", startHour)
                     .setParameter("category", category)
                     .getResultList();
+            
             for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
                 reservedCourtIds.add(re.getCourt().getCourtId());
             }
-            availableCourtIds = remove(reservedCourtIds);
+            for (Iterator iter = cateCourts.iterator(); iter.hasNext();){
+                Court co = (Court)iter.next();
+                cateCourtIds.add(co.getCourtId());
+            }
+            for (int i = 0; i < reservedCourtIds.size(); i++){
+                int delete = reservedCourtIds.get(i);
+                cateCourtIds.remove((Integer)delete);              
+            }
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return availableCourtIds;
+        return cateCourtIds;
     }
  
     

@@ -44,6 +44,10 @@
         <servlet-name>queryByTime</servlet-name>
         <servlet-class>javaeetutorial.order.web.queryByTime</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>queryByTimeAndCategory</servlet-name>
+        <servlet-class>javaeetutorial.order.web.queryByTimeAndCategory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>newlogin</servlet-name>
         <url-pattern>/newlogin</url-pattern>
@@ -83,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>queryByTime</servlet-name>
         <url-pattern>/queryByTime</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>queryByTimeAndCategory</servlet-name>
+        <url-pattern>/queryByTimeAndCategory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
