@@ -53,7 +53,7 @@ public class reserve extends HttpServlet {
             int year = Integer.parseInt(request.getParameter("year"));
             int month = Integer.parseInt(request.getParameter("month"));
             int date = Integer.parseInt(request.getParameter("date"));
-            int hour = Integer.parseInt(request.getParameter("hour"));
+            int hour = Integer.parseInt(request.getParameter("startHour"));
 
             
             //connect database
