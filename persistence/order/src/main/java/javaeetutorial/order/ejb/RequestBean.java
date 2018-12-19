@@ -16,6 +16,7 @@ import javaeetutorial.order.entity.Available;
 import javax.ejb.EJBException;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 
@@ -59,6 +60,7 @@ public class RequestBean {
             String username) {
         try {
             Reserve reserve = new Reserve(startDate,startHour);
+            em.persist(reserve);
 
             Court court = em.find(Court.class,courtId);
             reserve.setCourt(court);
@@ -67,7 +69,8 @@ public class RequestBean {
             reserve.setUser(user);
             
             reserve.setStatus(1);
-            em.persist(reserve);
+            em.merge(reserve);
+            em.flush();
 
         } catch (Exception ex) {
             throw new EJBException(ex.getMessage());
@@ -100,20 +103,32 @@ public class RequestBean {
         } catch(Exception e){
             throw new EJBException(e);
         }
-        return false;      
+        return false;   
     }   
 
     // by fuli
     public boolean modify (String username, String newPassword, String newPhone){
         try {
             User user1 = em.find(User.class, username);
-            if (user1 != null && (!user1.getPassword().equals(newPassword) || 
-                    !user1.getPassword().equals(newPhone))){
-                user1.setPassword(newPassword);
-                user1.setPhone(newPhone);
-                em.persist(user1);
-                return true;
-            }              
+            if (user1 != null){
+                logger.log(Level.INFO,"ffff");
+                if (!"".equals(newPassword) || !"".equals(newPhone)){
+                    if (!"".equals(newPassword)){
+                        user1.setPassword(newPassword);
+                    }
+                    if (!"".equals(newPhone)){
+                        user1.setPhone(newPhone);
+                    }
+                    em.merge(user1);
+                    em.flush();
+                    return true;
+                    
+                }
+                else return false;
+               
+            }
+            
+                       
         } catch (EJBException e) {
             throw new EJBException(e.getMessage());
         } 
@@ -135,7 +150,7 @@ public class RequestBean {
             int hour, String username){
         try {
             Calendar reDate = Calendar.getInstance();
-            reDate.set(year, month, date);
+            reDate.set(year, month-1, date);
             createReserve(courtId, reDate, hour, username);
             return true;
         } catch (Exception e) {
@@ -148,7 +163,8 @@ public class RequestBean {
         try {
             Reserve reserve = em.find(Reserve.class, reserveId);
             reserve.setStatus(2);
-            em.persist(reserve);
+            em.merge(reserve);
+            em.flush();
             return true;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
@@ -157,16 +173,26 @@ public class RequestBean {
     }
 
     
-    // by d10: create time array and remove reserved time
+  // by d10: create time array and remove reserved time
     public static List<Integer> remove(List<Integer>  list2){
         int i, j;
-        List<Integer>  result = new ArrayList<>();
-        List<Integer>  list1 = new ArrayList<>();
-
-        for (int courtId = 1; courtId < 14; courtId++){
-            list1.add(courtId);
-        }
-
+        List<Integer> result = new ArrayList<>();
+        List<Integer> list1 = new ArrayList<>();
+        
+        list1.add(1111);
+        list1.add(2222);
+        list1.add(3333);
+        list1.add(4444);
+        list1.add(5555);
+        list1.add(6666);
+        list1.add(7777);
+        list1.add(8888);
+        list1.add(9999);
+        list1.add(1010);
+        list1.add(1414);
+        list1.add(1212);
+        list1.add(1313);
+        
         for(i = 0; i < list1.size(); i++){
             for (j = 0; j < list2.size(); j++){
                 if (list1.get(i).equals(list2.get(j))){break;}
@@ -176,30 +202,33 @@ public class RequestBean {
         return result;
     }
     
-    // by d10
-    public List<Integer> queryByTime(Calendar startDate, int startHour){
+// by d10
+    public List<Integer> queryByTime(int year, int month, int date, int startHour){
         
-        List<Integer> reservedCourtIds = new ArrayList<>();
-        List<Integer> availableCourtIds = new ArrayList<>();
+        List<Integer> reserved_court_ids = new ArrayList<>();
+        List<Integer> available_court_ids = new ArrayList<>();
         try {
-            List reservedCourts;
-            reservedCourts = em.createNamedQuery("findReservesByTime")
+            List reserved_courts;
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(year, month-1, date);
+            reserved_courts = em.createNamedQuery("findReservesByTime")
                     .setParameter("startDate", startDate)
                     .setParameter("startHour", startHour)
                     .getResultList();
-            for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = reserved_courts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
-                reservedCourtIds.add(re.getCourt().getCourtId());
+                reserved_court_ids.add(re.getCourt().getCourtId());
             }
-            availableCourtIds = remove(reservedCourtIds);
+            available_court_ids = remove(reserved_court_ids);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return availableCourtIds;
+        return available_court_ids;
     }
+
     
     // by jeicy
-    public List<Available> queryByCategory(String category){
+    public List<Available> queryByCategory(int category){
         List<Available> results = new ArrayList<>();
         
         try {
@@ -210,13 +239,16 @@ public class RequestBean {
             for (Iterator coIt = courts.iterator(); coIt.hasNext();){
                 // every court that matches catogory
                 Court co = (Court)coIt.next();    
-                
                 Calendar today = Calendar.getInstance();
                 int cnt = 1;
                 
                 while (cnt < 8){  
                     // everyday in a week
                     today.add(Calendar.DATE, 1);
+                    int year = today.get(Calendar.YEAR);
+                    int month = today.get(Calendar.MONTH) + 1;
+                    int date = today.get(Calendar.DAY_OF_MONTH);
+                    
                     
                     List<Integer> hour = new ArrayList<>();       
                     for(int i = 16; i < 22; i++)
@@ -233,13 +265,14 @@ public class RequestBean {
                         for (Iterator reIt = reserves.iterator(); reIt.hasNext();){
                             //delete every reservation on that day
                             Reserve re = (Reserve)reIt.next();
-                            hour.remove(re.getStartHour());
+                            //hour.remove(re.getStartHour());
+                            hour.remove((Integer)re.getStartHour());
                         }
                     }
-                    Available tmp = new Available(co.getCourtId(), today, hour);
+                    Available tmp = new Available(co.getCourtId(), year, month, date, hour);
                     results.add(tmp);
                     cnt++;
-                }               
+                } 
             }         
         } catch (Exception e){
             throw new EJBException(e.getMessage());
@@ -248,28 +281,45 @@ public class RequestBean {
     }
     
     // by jeicy
-    public List<Integer> queryByTimeAndCategory(Calendar startDate, 
+    public List<Integer> queryByTimeAndCategory(int year, int month, int date, 
                                                     int startHour, 
                                                     int category){
         
         List<Integer> reservedCourtIds = new ArrayList<>();
-        List<Integer> availableCourtIds = new ArrayList<>();
+        List<Integer> cateCourtIds = new ArrayList<>();
+        
         try {
             List reservedCourts;
+            List cateCourts;
+            
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(year, month-1, date);
+            cateCourts = em.createNamedQuery("findCourtsByCategory")
+                    .setParameter("category", category)
+                    .getResultList();
+            
             reservedCourts = em.createNamedQuery("findReservedCourtsByCategoryAndTime")
                     .setParameter("startDate", startDate)
                     .setParameter("startHour", startHour)
                     .setParameter("category", category)
                     .getResultList();
+            
             for (Iterator iterator = reservedCourts.iterator(); iterator.hasNext();) {
                 Reserve re = (Reserve)iterator.next();
                 reservedCourtIds.add(re.getCourt().getCourtId());
             }
-            availableCourtIds = remove(reservedCourtIds);
+            for (Iterator iter = cateCourts.iterator(); iter.hasNext();){
+                Court co = (Court)iter.next();
+                cateCourtIds.add(co.getCourtId());
+            }
+            for (int i = 0; i < reservedCourtIds.size(); i++){
+                int delete = reservedCourtIds.get(i);
+                cateCourtIds.remove((Integer)delete);              
+            }
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return availableCourtIds;
+        return cateCourtIds;
     }
  
     
@@ -284,11 +334,11 @@ public class RequestBean {
 
     // by sun
     public List<Court> getAllCourts(){
-        List<Court> courts = (List<Court>)em.createNamedQuery("findCourtsByCourtId").getResultList();
+        List<Court> courts = (List<Court>)em.createNamedQuery("findAllCourts").getResultList();
         return courts;
     }
 
     void createCourt(int i, String 篮球, String 光体, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.      
     }
 }

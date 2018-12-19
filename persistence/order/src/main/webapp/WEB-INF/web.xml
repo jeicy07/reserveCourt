@@ -1,30 +1,103 @@
-<?xml version='1.0' encoding='UTF-8'?>
-
-<web-app version="3.1" 
-         xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-  <context-param>
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>
-            javax.faces.webapp.FacesServlet
-        </servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>newlogin</servlet-name>
+        <servlet-class>javaeetutorial.order.web.newlogin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>register</servlet-name>
+        <servlet-class>javaeetutorial.order.web.register</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>modify</servlet-name>
+        <servlet-class>javaeetutorial.order.web.modify</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>reserve</servlet-name>
+        <servlet-class>javaeetutorial.order.web.reserve</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cancel</servlet-name>
+        <servlet-class>javaeetutorial.order.web.cancel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userInfo</servlet-name>
+        <servlet-class>javaeetutorial.order.web.userInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>allCourts</servlet-name>
+        <servlet-class>javaeetutorial.order.web.allCourts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>allReserves</servlet-name>
+        <servlet-class>javaeetutorial.order.web.allReserves</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>queryByCategory</servlet-name>
+        <servlet-class>javaeetutorial.order.web.queryByCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>queryByTime</servlet-name>
+        <servlet-class>javaeetutorial.order.web.queryByTime</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>queryByTimeAndCategory</servlet-name>
+        <servlet-class>javaeetutorial.order.web.queryByTimeAndCategory</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
+        <servlet-name>newlogin</servlet-name>
+        <url-pattern>/newlogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modify</servlet-name>
+        <url-pattern>/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reserve</servlet-name>
+        <url-pattern>/reserve</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cancel</servlet-name>
+        <url-pattern>/cancel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userInfo</servlet-name>
+        <url-pattern>/userInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allCourts</servlet-name>
+        <url-pattern>/allCourts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allReserves</servlet-name>
+        <url-pattern>/allReserves</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>queryByCategory</servlet-name>
+        <url-pattern>/queryByCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>queryByTime</servlet-name>
+        <url-pattern>/queryByTime</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>queryByTimeAndCategory</servlet-name>
+        <url-pattern>/queryByTimeAndCategory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-   <welcome-file-list>
-     <welcome-file>order.xhtml</welcome-file>
-   </welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>order.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>
